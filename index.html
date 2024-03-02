@@ -339,7 +339,6 @@
                     <option value="colunas">Colunas</option>
                     <option value="lajes">Lajes</option>
                     <option value="contrapiso">ContraPiso</option>
-                    <option value="revestimento">Revestimento de Argamassa</option>
                 </select>
             </div>
             
@@ -406,6 +405,7 @@
             cimentoContainer.style.display = 'none';
             telhaContainer.style.display = 'none';
             tijoloContainer.style.display = 'none';
+            toggleMenu();
         }
         
         function sectionCimento() {
@@ -417,6 +417,7 @@
             cimentoContainer.style.display = 'block';
             telhaContainer.style.display = 'none';
             tijoloContainer.style.display = 'none';
+            toggleMenu();
         }
 
         function sectionTelha() {
@@ -428,6 +429,7 @@
             cimentoContainer.style.display = 'none';
             telhaContainer.style.display = 'block';
             tijoloContainer.style.display = 'none';
+            toggleMenu();
         }
 
         function sectionTijolo() {
@@ -439,34 +441,12 @@
             cimentoContainer.style.display = 'none';
             telhaContainer.style.display = 'none';
             tijoloContainer.style.display = 'block';
+            toggleMenu();
         }
 
         function activateCalculator() {
             var calculatorContainer = document.getElementById('calculator-container');
-            calculatorContainer.style.display = 'block';/*
-            var calculator = document.getElementById('calculator');
-            calculator.addEventListener('mousedown', startDrag);
-
-            function startDrag(e) {
-                isDragging = true;
-                var offsetX = e.clientX - calculatorContainer.getBoundingClientRect().left;
-                var offsetY = e.clientY - calculatorContainer.getBoundingClientRect().top;
-                document.addEventListener('mousemove', drag);
-                document.addEventListener('mouseup', stopDrag);
-
-                function drag(e) {
-                    if (isDragging) {
-                        calculatorContainer.style.left = e.clientX - offsetX + 'px';
-                        calculatorContainer.style.top = e.clientY - offsetY + 'px';
-                    }
-                }
-
-                function stopDrag() {
-                    isDragging = false;
-                    document.removeEventListener('mousemove', drag);
-                    document.removeEventListener('mouseup', stopDrag);
-                }
-            }*/
+            calculatorContainer.style.display = 'block';
         }
 
         function closeCalculator() {
@@ -584,6 +564,10 @@
         var larguraContainer = document.getElementById('largura-container');
         var alturaContainer = document.getElementById('altura-container');
         var circuferenciaContainer = document.getElementById('circuferencia-container');
+        comprimentoContainer.style.display = 'block';
+        larguraContainer.style.display = 'block';
+        alturaContainer.style.display = 'block';
+        circuferenciaContainer.style.display = 'none';
 
         select_.addEventListener('change', function () {
             if (select_.value === 'fundacao') {
@@ -612,11 +596,6 @@
                 alturaContainer.style.display = 'block';
                 circuferenciaContainer.style.display = 'none';
             }if (select_.value === 'contrapiso') {
-                comprimentoContainer.style.display = 'block';
-                larguraContainer.style.display = 'block';
-                alturaContainer.style.display = 'block';
-                circuferenciaContainer.style.display = 'none';
-            }if (select_.value === 'revestimento') {
                 comprimentoContainer.style.display = 'block';
                 larguraContainer.style.display = 'block';
                 alturaContainer.style.display = 'block';
@@ -652,9 +631,6 @@
                 case 'contrapiso':
                     quantidadeCimento = calcularContraPiso(comprimento, largura, altura);
                     break;
-                case 'revestimento':
-                    quantidadeCimento = calcularRevestimento(comprimento, largura, altura);
-                    break;
                 default:
                     quantidadeCimento = 0;
                     break;
@@ -674,26 +650,30 @@
         }
 
         function calcularPilares(comprimento, largura, altura) {
-            // Aqui você pode implementar o cálculo específico para fundações
+            // Aqui você pode implementar o cálculo específico para pilares
             // Este exemplo é apenas um esboço simples
-            var volumeFundaçao = comprimento * largura * altura;
+            var volumePilares = comprimento * largura * altura;
             var densidadeConcreto = 2400; // Densidade do concreto em kg/m^3 (exemplo)
             var pesoCimentoPorSaco = 50; // Peso de um saco de cimento em kg (exemplo)
-            var quantidadeCimento = (volumeFundaçao * densidadeConcreto) / pesoCimentoPorSaco;
+            var quantidadeCimento = (volumePilares * densidadeConcreto) / pesoCimentoPorSaco;
             return quantidadeCimento;
         }
 
         function calcularVigas(comprimento, largura, altura) {
-            // Lógica para calcular a quantidade de cimento necessária para vigas
-            return 0; // Ajuste isso com a lógica correta de cálculo
+            // Este exemplo é apenas um esboço simples
+            var volumeVigas = comprimento * largura * altura;
+            var densidadeConcreto = 2400; // Densidade do concreto em kg/m^3 (exemplo)
+            var pesoCimentoPorSaco = 50; // Peso de um saco de cimento em kg (exemplo)
+            var quantidadeCimento = (volumeVigas * densidadeConcreto) / pesoCimentoPorSaco;
+            return quantidadeCimento;
         }
 
         function calcularColunas(circuferencia, altura) {
             // Lógica para calcular a quantidade de cimento necessária para colunas
-            var volumeFundaçao = (Math.pow(circuferencia, 2)/(4*3,14))
+            var volumeColunas = (Math.pow(circuferencia, 2)/(4*Math.PI))
             var densidadeConcreto = 2400; // Densidade do concreto em kg/m^3 (exemplo)
             var pesoCimentoPorSaco = 50; // Peso de um saco de cimento em kg (exemplo)
-            var quantidadeCimento = (volumeFundaçao * densidadeConcreto) / pesoCimentoPorSaco;
+            var quantidadeCimento = (volumeColunas * densidadeConcreto) / pesoCimentoPorSaco;
             return quantidadeCimento;
         }
 
@@ -709,13 +689,13 @@
         }
 
         function calcularContraPiso(comprimento, largura, altura) {
-            // Lógica para calcular a quantidade de cimento necessária para contrapiso
-            return 0; // Ajuste isso com a lógica correta de cálculo
-        }
-
-        function calcularRevestimento(comprimento, largura, altura) {
-            // Lógica para calcular a quantidade de cimento necessária para revestimento de argamassa
-            return 0; // Ajuste isso com a lógica correta de cálculo
+            // Aqui você pode implementar o cálculo específico para contra piso
+            // Este exemplo é apenas um esboço simples
+            var volumeContraPiso = comprimento * largura * altura;
+            var densidadeConcreto = 2400; // Densidade do concreto em kg/m^3 (exemplo)
+            var pesoCimentoPorSaco = 50; // Peso de um saco de cimento em kg (exemplo)
+            var quantidadeCimento = (volumeContraPiso * densidadeConcreto) / pesoCimentoPorSaco;
+            return quantidadeCimento;
         }
     </script>
 </body>
